@@ -46,9 +46,10 @@ int main()
     std::string fileContent = buffer.str(); // Put the buffer to the fileContent
     fs.close();
 
-    std::string obfuscatedContent = base64_encode(fileContent);    // Obfuscate the file content
-    std::string obfuscatedFile = cppFile + "_obfuscated" + ".cpp"; // Add the obfuscated to the file name
-    fs.open(obfuscatedFile, std::ios::out | std::ios::trunc);      // Open the file in output mode
+    std::string encodedContent = base64_encode(fileContent);
+    size_t partSize = encodedContent.size() / 10;
+
+    fs.open(cppFile + "_obfuscated" + ".cpp", std::ios::out | std::ios::trunc); // Open the file in output mode
     if (!fs.is_open())
     { // If the file is not open then return 1
         std::cout << "Error opening file for writing" << std::endl;
@@ -81,7 +82,16 @@ int main()
 #define __________________ static
 #define ___________________ ________
 
-#define 编码 ")" << base64_encode(fileContent) << R"("
+#define 编码1 ")" << encodedContent.substr(0, partSize) << R"("
+#define 编码2 ")" << encodedContent.substr(partSize, partSize) << R"("
+#define 编码3 ")" << encodedContent.substr(2 * partSize, partSize) << R"("
+#define 编码4 ")" << encodedContent.substr(3 * partSize, partSize) << R"("
+#define 编码5 ")" << encodedContent.substr(4 * partSize, partSize) << R"("
+#define 编码6 ")" << encodedContent.substr(5 * partSize, partSize) << R"("
+#define 编码7 ")" << encodedContent.substr(6 * partSize, partSize) << R"("
+#define 编码8 ")" << encodedContent.substr(7 * partSize, partSize) << R"("
+#define 编码9 ")" << encodedContent.substr(8 * partSize, partSize) << R"("
+#define 编码10 ")" << encodedContent.substr(9 * partSize) << R"("
 
 _ __ ___;
 
@@ -109,6 +119,7 @@ ________________ ___________________ {
 };
 
 _____ ______() {
+    ___::____ 编码 = 编码1 编码2 编码3 编码4 编码5 编码6 编码7 编码8 编码9 编码10;
     ___::____ 解码 = ___________________::______________________(编码);
     ___::ofstream 临时文件("temp.cpp");
     临时文件 << 解码;
@@ -122,6 +133,6 @@ _____ ______() {
 }
 )";
     fs.close();                                                                              // Close the file
-    std::cout << "File obfuscated successfully and saved as" << obfuscatedFile << std::endl; // Output for the obfuscation done
+    std::cout << "File obfuscated successfully and saved as" << cppFile + "_obfuscated" + ".cpp" << std::endl; // Output for the obfuscation done
     return 0;                                                                                // Return 0
 }
