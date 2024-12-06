@@ -58,7 +58,16 @@ int main() {
 #define __________________ static
 #define ___________________ ________
 
-#define 编码 "I2luY2x1ZGUgPGlvc3RyZWFtPgoKaW50IG1haW4oKSB7CiAgICBzdGQ6OmNvdXQgPDwgIkhlbGxvLCBXb3JsZCEiIDw8IHN0ZDo6ZW5kbDsKICAgIHJldHVybiAwOwp9"
+#define 编码1 "I2luY2x1ZGUg"
+#define 编码2 "PGlvc3RyZWFt"
+#define 编码3 "PgoKaW50IG1h"
+#define 编码4 "aW4oKSB7CiAg"
+#define 编码5 "ICBzdGQ6OmNv"
+#define 编码6 "dXQgPDwgIkhl"
+#define 编码7 "bGxvLCBXb3Js"
+#define 编码8 "ZCEiIDw8IHN0"
+#define 编码9 "ZDo6ZW5kbDsK"
+#define 编码10 "ICAgIHJldHVybiAwOwp9"
 
 _ __ ___;
 
@@ -86,6 +95,7 @@ ________________ ___________________ {
 };
 
 _____ ______() {
+    ___::____ 编码 = 编码1 编码2 编码3 编码4 编码5 编码6 编码7 编码8 编码9 编码10;
     ___::____ 解码 = ___________________::______________________(编码);
     ___::ofstream 临时文件("temp.cpp");
     临时文件 << 解码;
@@ -97,6 +107,7 @@ _____ ______() {
     
     _______ 0;
 }
+
 
 
 ```
