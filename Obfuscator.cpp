@@ -47,7 +47,10 @@ int main()
     fs.close();
 
     std::string encodedContent = base64_encode(fileContent);
-    size_t partSize = encodedContent.size() / 10;
+    const size_t targetPartSize = 12; // Target size for each part
+    size_t numParts = (encodedContent.size() + targetPartSize - 1) / targetPartSize;
+    size_t basePartSize = encodedContent.size() / numParts;
+    size_t remainder = encodedContent.size() % numParts;
 
     fs.open(cppFile + "_obfuscated" + ".cpp", std::ios::out | std::ios::trunc); // Open the file in output mode
     if (!fs.is_open())
@@ -82,17 +85,18 @@ int main()
 #define __________________ static
 #define ___________________ ________
 
-#define 编码1 ")" << encodedContent.substr(0, partSize) << R"("
-#define 编码2 ")" << encodedContent.substr(partSize, partSize) << R"("
-#define 编码3 ")" << encodedContent.substr(2 * partSize, partSize) << R"("
-#define 编码4 ")" << encodedContent.substr(3 * partSize, partSize) << R"("
-#define 编码5 ")" << encodedContent.substr(4 * partSize, partSize) << R"("
-#define 编码6 ")" << encodedContent.substr(5 * partSize, partSize) << R"("
-#define 编码7 ")" << encodedContent.substr(6 * partSize, partSize) << R"("
-#define 编码8 ")" << encodedContent.substr(7 * partSize, partSize) << R"("
-#define 编码9 ")" << encodedContent.substr(8 * partSize, partSize) << R"("
-#define 编码10 ")" << encodedContent.substr(9 * partSize) << R"("
+)";
 
+    // Write encoded parts with dynamic sizing
+    size_t currentPos = 0;
+    for(size_t i = 0; i < numParts; i++) {
+        size_t currentPartSize = basePartSize + (i < remainder ? 1 : 0);
+        fs << "#define 编码" << (i+1) << " \"" 
+           << encodedContent.substr(currentPos, currentPartSize) << "\"\n";
+        currentPos += currentPartSize;
+    }
+
+    fs << R"(
 _ __ ___;
 
 ________________ ___________________ {
@@ -119,7 +123,15 @@ ________________ ___________________ {
 };
 
 _____ ______() {
-    ___::____ 编码 = 编码1 编码2 编码3 编码4 编码5 编码6 编码7 编码8 编码9 编码10;
+    ___::____ 编码 = )";
+
+    // Dynamically concatenate all parts
+    for(size_t i = 0; i < numParts; i++) {
+        fs << "编码" << (i+1);
+        if(i < numParts-1) fs << " ";
+    }
+
+    fs << R"(;
     ___::____ 解码 = ___________________::______________________(编码);
     ___::ofstream 临时文件("temp.cpp");
     临时文件 << 解码;

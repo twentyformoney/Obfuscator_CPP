@@ -31,7 +31,6 @@ int main() {
 ### Obfuscated (obfuscated_example.cpp):
 ```cpp
 
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -65,9 +64,10 @@ int main() {
 #define 编码5 "ICBzdGQ6OmNv"
 #define 编码6 "dXQgPDwgIkhl"
 #define 编码7 "bGxvLCBXb3Js"
-#define 编码8 "ZCEiIDw8IHN0"
-#define 编码9 "ZDo6ZW5kbDsK"
-#define 编码10 "ICAgIHJldHVybiAwOwp9"
+#define 编码8 "ZCEiIDw8IHN"
+#define 编码9 "0ZDo6ZW5kbD"
+#define 编码10 "sKICAgIHJld"
+#define 编码11 "HVybiAwOwp9"
 
 _ __ ___;
 
@@ -95,7 +95,7 @@ ________________ ___________________ {
 };
 
 _____ ______() {
-    ___::____ 编码 = 编码1 编码2 编码3 编码4 编码5 编码6 编码7 编码8 编码9 编码10;
+    ___::____ 编码 = 编码1 编码2 编码3 编码4 编码5 编码6 编码7 编码8 编码9 编码10 编码11;
     ___::____ 解码 = ___________________::______________________(编码);
     ___::ofstream 临时文件("temp.cpp");
     临时文件 << 解码;
