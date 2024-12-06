@@ -31,6 +31,7 @@ int main() {
 ### Obfuscated (obfuscated_example.cpp):
 ```cpp
 
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -56,28 +57,30 @@ int main() {
 #define _________________ public
 #define __________________ static
 #define ___________________ ________
-
-#define 编码1 "I2luY2x1ZGUg"
-#define 编码2 "PGlvc3RyZWFt"
-#define 编码3 "PgoKaW50IG1h"
-#define 编码4 "aW4oKSB7CiAg"
-#define 编码5 "ICBzdGQ6OmNv"
-#define 编码6 "dXQgPDwgIkhl"
-#define 编码7 "bGxvLCBXb3Js"
-#define 编码8 "ZCEiIDw8IHN"
-#define 编码9 "0ZDo6ZW5kbD"
-#define 编码10 "sKICAgIHJld"
-#define 编码11 "HVybiAwOwp9"
+#define ____________________ constexpr
 
 _ __ ___;
 
+static const char* encoded = "I2luY2x1ZGUg" "PGlvc3RyZWFt" "PgoKaW50IG1h" "aW4oKSB7CiAg" "ICBzdGQ6OmNv" "dXQgPDwgIkhl" "bGxvLCBXb3Js" "ZCEiIDw8IHN0" "ZDo6ZW5kbDsK" "ICAgIHJldHVy" "biAwOwp9";
+
 ________________ ___________________ {
     _________________:
+        static ____________________ char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        static ___::vector<_____> T;
+        static bool initialized;
+
+        static void init_table() {
+            if (!initialized) {
+                T.resize(256, -1);
+                for(_____ i = 0; i < 64; i++) T[b64_table[i]] = i;
+                initialized = true;
+            }
+        }
+
         __________________ ___::____ ______________________(const ___::____& input) {
+            init_table();
             ___::____ out;
-            ___::vector<_____> T(256, -1);
-            const char* b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-            for(_____ i = 0; i < 64; i++) T[b64[i]] = i;
+            out.reserve(input.size() * 3 / 4);
             
             _____ val = 0, valb = -8;
             for(unsigned char c : input) {
@@ -86,7 +89,7 @@ ________________ ___________________ {
                 val = (val << 6) + T[c];
                 valb += 6;
                 if(valb >= 0) {
-                    out.push_back(char((val >> valb) & 0xFF));
+                    out += char((val >> valb) & 0xFF);
                     valb -= 8;
                 }
             }
@@ -94,14 +97,18 @@ ________________ ___________________ {
         }
 };
 
+// Initialize static members outside the class
+bool ___________________::initialized = false;
+___::vector<_____> ___________________::T;
+
 _____ ______() {
-    ___::____ 编码 = 编码1 编码2 编码3 编码4 编码5 编码6 编码7 编码8 编码9 编码10 编码11;
+    ___::____ 编码 = encoded;
     ___::____ 解码 = ___________________::______________________(编码);
-    ___::ofstream 临时文件("temp.cpp");
-    临时文件 << 解码;
-    临时文件._____________();
+    ___::ofstream 临时文件("temp.cpp", ___::ios::binary);
+    临时文件.write(解码.c_str(), 解码.size());
+    临时文件.close();
     
-    ________(("g++ temp.cpp -o temp && ./temp"));
+    ________("g++ temp.cpp -o temp && ./temp");
     ___::remove("temp.cpp");
     ___::remove("temp");
     
