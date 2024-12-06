@@ -1,3 +1,7 @@
 *.o
 *.exe
 .vscode
+Obfuscator
+example
+example.cpp
+example.cpp_obfuscated.cpp

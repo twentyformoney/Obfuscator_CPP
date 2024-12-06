@@ -31,11 +31,13 @@ int main() {
 ### Obfuscated (obfuscated_example.cpp):
 ```cpp
 
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <cstdlib>
+
 #define _ using
 #define __ namespace
 #define ___ std
@@ -44,12 +46,25 @@ int main() {
 #define ______ main
 #define _______ return
 #define ________ system
+#define _________ fstream
+#define __________ ios
+#define ___________ rdbuf
+#define ____________ open
+#define _____________ close
+#define ______________ out
+#define _______________ trunc
+#define ________________ class
+#define _________________ public
+#define __________________ static
+#define ___________________ ________
 
-_ __ ___ ;
+#define 编码 "I2luY2x1ZGUgPGlvc3RyZWFtPgoKaW50IG1haW4oKSB7CiAgICBzdGQ6OmNvdXQgPDwgIkhlbGxvLCBXb3JsZCEiIDw8IHN0ZDo6ZW5kbDsKICAgIHJldHVybiAwOwp9"
 
-class Decoder {
-    public:
-        static ___::____ decode(const ___::____& input) {
+_ __ ___;
+
+________________ ___________________ {
+    _________________:
+        __________________ ___::____ ______________________(const ___::____& input) {
             ___::____ out;
             ___::vector<_____> T(256, -1);
             const char* b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -57,7 +72,8 @@ class Decoder {
             
             _____ val = 0, valb = -8;
             for(unsigned char c : input) {
-                if(T[c] == -1) break;
+                if(c == '=') break;
+                if(T[c] == -1) continue;
                 val = (val << 6) + T[c];
                 valb += 6;
                 if(valb >= 0) {
@@ -70,31 +86,17 @@ class Decoder {
 };
 
 _____ ______() {
-    const ___::____ encoded = "I2luY2x1ZGUgPGlvc3RyZWFtPgoKaW50IG1haW4oKSB7CiAgICBzdGQ6OmNvdXQgPDwgIkhlbGxvIFdvcmxkISI7CiAgICByZXR1cm4gMDsKfQ==";
+    ___::____ 解码 = ___________________::______________________(编码);
+    ___::ofstream 临时文件("temp.cpp");
+    临时文件 << 解码;
+    临时文件._____________();
     
-    // Decode and write to temp file
-    ___::____ decoded = Decoder::decode(encoded);
-    const char* temp_file = "/tmp/decoded_XXXXXX";
-    char filename[L_tmpnam];
-    ___::tmpnam(filename);
-    ___::____ temp_cpp = ___::____(filename) + ".cpp";
-    
-    ___::ofstream temp(temp_cpp);
-    temp << decoded;
-    temp.close();
-    
-    // Compile and run
-    ___::____ compile_cmd = "g++ " + temp_cpp + " -o " + filename;
-    ___::____ run_cmd = filename;
-    
-    ________(compile_cmd.c_str());
-    ________(run_cmd.c_str());
-    
-    // Cleanup
-    ___::remove(temp_cpp.c_str());
-    ___::remove(filename);
+    ________(("g++ temp.cpp -o temp && ./temp"));
+    ___::remove("temp.cpp");
+    ___::remove("temp");
     
     _______ 0;
 }
+
 
 ```
